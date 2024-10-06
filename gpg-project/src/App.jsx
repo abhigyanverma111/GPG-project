@@ -1,35 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { useCallback } from 'react'
-function App() {
-  const [count, setCount] = useState(0)
+import React from "react";
+import { BrowserRouter, useRoutes } from "react-router-dom";
+import Login from "./components/Authentication/login";
+import Register from "./components/Authentication/register";
+import Header from "./components/header";
+import Dashboard from "./components/Dashboard";
+import { AuthProvider } from "./contexts/AuthContext";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Manas</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function AppRoutes() {
+  // Define routes inside the component that is rendered inside BrowserRouter
+  const routesArray = [
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+    {
+      path: "/dashboard",
+      element: <Dashboard />,
+    },
+    {
+      path: "*",
+      element: <Login />, // Fallback route (e.g., 404 handling)
+    },
+  ];
+
+  // Generate the routes elements using useRoutes
+  return useRoutes(routesArray);
 }
 
-export default App
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Header />
+        <div className="w-full h-screen flex flex-col">
+          <AppRoutes /> {/* Place useRoutes inside BrowserRouter */}
+        </div>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
+
+export default App;
