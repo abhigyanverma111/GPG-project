@@ -1,5 +1,6 @@
 import React from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { Search } from "../search/search";
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
@@ -8,6 +9,7 @@ const Dashboard = () => {
       Hello{" "}
       {currentUser.displayName ? currentUser.displayName : currentUser.email},
       you are now logged in.
+      <Search/>
     </div>
   );
 };
